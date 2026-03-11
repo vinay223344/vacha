@@ -1,0 +1,64 @@
+// ===============================
+// Test Verilog File With Errors
+// ===============================
+
+/* Multi-line
+   comment block
+   should be ignored */
+
+module BGR (in1, in2 out1,);   // ERR07 trailing comma
+                                 // ERR10 missing comma between in2 and out1
+
+// -------------------------------
+// Port Declarations
+// -------------------------------
+
+Input in1;              // ERR09 case sensitivity (Input → input)
+input in1;              // ERR05 duplicate port
+
+input [7:0] [3:0] in2;  // ERR08 multiple widths
+
+output [15:0] out1      // ERR01 missing semicolon
+
+inout vdd;
+
+[3:0] data_bus;         // ERR06 direction missing
+
+input 2data;            // ERR04 illegal name (starts with number)
+
+
+// -------------------------------
+// Internal Signals
+// -------------------------------
+
+wire [7:0] data         // ERR01 missing semicolon
+
+
+// -------------------------------
+// Submodule Instantiations
+// -------------------------------
+
+OPAMP u_opamp (.in(in1), .out(out1))   // ERR01 missing semicolon
+
+res u_r1 (.a(in1, .b(out1));           // ERR02 unmatched parenthesis
+
+res u-r2 (.a(in2), .b(out1));          // ERR04 illegal instance name (dash)
+
+cap u_c1 (.p(vdd), .n(gnd));
+
+OPAMP u_opamp (.in(in2), .out(out1));  // ERR11 duplicate instance name
+
+
+// -------------------------------
+// Always Block
+// -------------------------------
+
+always @(*) begin
+    data = in1 + in2;
+// ERR03 missing 'end'
+
+
+// -------------------------------
+// Missing endmodule
+// -------------------------------
+// ERR03 missing endmodule
